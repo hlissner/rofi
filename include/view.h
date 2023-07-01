@@ -305,6 +305,15 @@ void rofi_view_set_overlay(RofiViewState *state, const char *text);
 void rofi_view_clear_input(RofiViewState *state);
 
 /**
+ * @param state The handle to the view.
+ * @param text An UTF-8 encoded character array with the new input text
+ * @param cursor_pos Where to place the cursor. Clamped to text length and -1 == end
+ *
+ * Changes the contexts of the entry box, then triggers refiltering.
+ */
+void rofi_view_set_input(RofiViewState *state, const char *text, int cursor_pos);
+
+/**
  * @param menu_flags The state of the new window.
  *
  * Creates the internal 'Cached' window that gets reused between views.

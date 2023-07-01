@@ -1430,6 +1430,8 @@ static gboolean rofi_view_refilter_real(RofiViewState *state) {
     listview_set_filtered(state->list_view, TRUE);
     unsigned int j = 0;
     state->tokens = helper_tokenize(pattern, config.case_sensitive);
+    unsigned int old_selected_line = state->selected_line;
+    unsigned int old_selected_index = listview_get_selected(state->list_view);
     /**
      * On long lists it can be beneficial to parallelize.
      * If number of threads is 1, no thread is spawn.
@@ -1490,6 +1492,17 @@ static gboolean rofi_view_refilter_real(RofiViewState *state) {
     // Cleanup + bookkeeping.
     state->filtered_lines = j;
     g_free(pattern);
+
+    // Restore the selection, if possible.
+    if (old_selected_index < state->filtered_lines
+        && old_selected_line != state->line_map[listview_get_selected(state->list_view)]) {
+      for (unsigned int i = 0; old_selected_line < UINT32_MAX && i < state->filtered_lines; ++i) {
+        if (state->line_map[i] == old_selected_line) {
+          rofi_view_set_selected_line(state, old_selected_line);
+          break;
+        }
+      }
+    }
 
     double elapsed = g_timer_elapsed(timer, NULL);
 
@@ -2720,6 +2733,21 @@ void rofi_view_clear_input(RofiViewState *state) {
   if (state->text) {
     textbox_text(state->text, "");
     rofi_view_set_selected_line(state, 0);
+  }
+}
+
+void rofi_view_set_input(RofiViewState *state, const char *text, int cursor_pos) {
+  if (state->text) {
+    textbox_text(state->text, text == NULL ? "" : text);
+    if (text != NULL) {
+      if (cursor_pos < 0) {
+        ++cursor_pos;
+        cursor_pos = ((int)g_utf8_strlen(state->text->text, -1)) + cursor_pos;
+      }
+      textbox_cursor(state->text, cursor_pos);
+    }
+    state->refilter = TRUE;
+    rofi_view_input_changed();
   }
 }
 
