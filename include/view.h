@@ -368,6 +368,14 @@ void rofi_view_get_current_monitor(int *width, int *height);
  * Takes a screenshot.
  */
 void rofi_capture_screenshot(void);
+
+/**
+ * @param state The window state handle
+ *
+ * Updates the prompt text.
+ */
+void rofi_view_update_prompt(RofiViewState *state);
+
 /**
  * Set the window title.
  */

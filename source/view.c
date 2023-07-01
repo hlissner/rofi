@@ -332,9 +332,14 @@ static gboolean rofi_view_repaint(G_GNUC_UNUSED void *data) {
   return (bench_update() == TRUE) ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
 }
 
-static void rofi_view_update_prompt(RofiViewState *state) {
+void rofi_view_update_prompt(RofiViewState *state) {
   if (state->prompt) {
     const char *str = mode_get_display_name(state->sw);
+    if (g_utf8_strlen(str, -1) == 0) {
+      widget_disable(WIDGET(state->prompt));
+    } else {
+      widget_enable(WIDGET(state->prompt));
+    }
     textbox_text(state->prompt, str);
   }
 }
