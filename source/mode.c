@@ -210,6 +210,13 @@ char *mode_preprocess_input(Mode *mode, const char *input) {
   }
   return g_strdup(input);
 }
+
+void mode_selection_changed(Mode *mode, unsigned int index, unsigned int relative_index) {
+  if (mode->_selection_changed) {
+    mode->_selection_changed(mode, index, relative_index);
+  }
+}
+
 char *mode_get_message(const Mode *mode) {
   if (mode->_get_message) {
     return mode->_get_message(mode);

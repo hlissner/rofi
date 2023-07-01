@@ -240,6 +240,16 @@ char *mode_preprocess_input(Mode *mode, const char *input);
 
 /**
  * @param mode The mode to query
+ * @param absolute_index The index of the selected row (relative to all lines).
+ * @param relative_index The index of the selected row on screen.
+ *
+ * Announces a change in selected row. If relative_index is -1 (e.g. when list
+ * is empty), absolute_index is invalid.
+ */
+void mode_selection_changed(Mode *mode, unsigned int index, unsigned int relative_index);
+
+/**
+ * @param mode The mode to query
  *
  * Query the mode for a user display.
  *

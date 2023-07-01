@@ -155,6 +155,17 @@ typedef ModeMode (*_mode_result)(Mode *sw, int menu_retv, char **input,
  */
 typedef char *(*_mode_preprocess_input)(Mode *sw, const char *input);
 
+
+/**
+ * @param sw The #Mode pointer
+ * @param index The currently collected line
+ * @param active_row The index of the active screen row
+ *
+ * Announces a change in selected line.
+ */
+typedef void (*_mode_selection_changed)(Mode *sw, unsigned int index, unsigned int relative_index);
+
+
 /**
  * @param sw The #Mode pointer
  *
@@ -221,6 +232,8 @@ struct rofi_mode {
   _mode_get_completion _get_completion;
 
   _mode_preprocess_input _preprocess_input;
+  /** Announce changes to selected line. */
+  _mode_selection_changed _selection_changed;
 
   _mode_get_message _get_message;
 

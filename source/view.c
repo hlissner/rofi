@@ -1253,6 +1253,8 @@ inline static void rofi_view_nav_last(RofiViewState *state) {
   // state->selected = state->filtered_lines - 1;
   listview_set_selected(state->list_view, -1);
 }
+
+unsigned int last_index = UINT32_MAX;
 static void selection_changed_callback(G_GNUC_UNUSED listview *lv,
                                        unsigned int index, void *udata) {
   RofiViewState *state = (RofiViewState *)udata;
@@ -1280,6 +1282,17 @@ static void selection_changed_callback(G_GNUC_UNUSED listview *lv,
       icon_set_surface(state->icon_current_entry, NULL);
     }
   }
+
+  unsigned int absolute_index = UINT_MAX;
+  unsigned int relative_index = UINT_MAX;
+  if (index < state->filtered_lines) {
+    absolute_index = state->line_map[index];
+    relative_index = index;
+  }
+  if (last_index != absolute_index) {
+    mode_selection_changed(state->sw, absolute_index, relative_index);
+  }
+  last_index = absolute_index;
 }
 static void update_callback(textbox *t, icon *ico, unsigned int index,
                             void *udata, TextBoxFontType *type, gboolean full) {
