@@ -183,6 +183,13 @@ void rofi_view_trigger_action(RofiViewState *state, BindingsScope scope,
 
 /**
  * @param state The handle to the view
+ * @param scope The scope of the action
+ * @param action The action
+ */
+void rofi_view_trigger_action_by_name(RofiViewState *state, const char *name);
+
+/**
+ * @param state The handle to the view
  *
  * Free's the memory allocated for this handle.
  * After a call to this function, state is invalid and can no longer be used.

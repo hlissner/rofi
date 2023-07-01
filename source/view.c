@@ -573,6 +573,15 @@ static void rofi_view_set_user_timeout(G_GNUC_UNUSED gpointer data) {
   }
 }
 
+void rofi_view_trigger_action_by_name(RofiViewState *state, const char *name) {
+  guint id = key_binding_get_action_from_name(name);
+  if (id != UINT32_MAX) {
+    rofi_view_trigger_action(state, SCOPE_GLOBAL, id);
+  } else {
+    g_warning("Failed to parse keybinding: %s\r\n", name);
+  }
+}
+
 void rofi_view_reload(void) {
   // @TODO add check if current view is equal to the callee
   if (CacheState.idle_timeout == 0) {
