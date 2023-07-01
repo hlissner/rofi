@@ -298,6 +298,14 @@ uint32_t rofi_view_set_icon(RofiViewState *state, const char *icon, gboolean pre
 void rofi_view_set_overlay(RofiViewState *state, const char *text);
 
 /**
+ * @param state The handle to the view
+ * @param text An UTF-8 encoded character array with the placeholder text
+ *
+ * Changes the placeholder text.
+ */
+void rofi_view_set_placeholder(RofiViewState *state, const char *text);
+
+/**
  * @param state The handle to the view.
  *
  * Clears the user entry box, set selected to 0.

@@ -2729,6 +2729,19 @@ void rofi_view_set_overlay(RofiViewState *state, const char *text) {
   rofi_view_queue_redraw();
 }
 
+void rofi_view_set_placeholder(RofiViewState *state, const char *text) {
+  if (state->text != NULL) {
+    if (state->text->placeholder != NULL) {
+      g_free(state->text->placeholder);
+    }
+    state->text->placeholder = rofi_theme_get_boolean(WIDGET(state->text), "placeholder-markup", FALSE)
+      ? g_strdup(text)
+      : g_markup_escape_text(text, -1);
+    textbox_text(state->text, g_strdup(state->text->text));  // Trigger refresh
+    rofi_view_queue_redraw();
+  }
+}
+
 void rofi_view_clear_input(RofiViewState *state) {
   if (state->text) {
     textbox_text(state->text, "");
