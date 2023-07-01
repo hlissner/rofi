@@ -214,9 +214,11 @@ static void run_mode_index(ModeMode mode) {
   if (rofi_view_get_active() != NULL) {
     return;
   }
+  MenuFlags flags = 0;
+  if (find_arg("-password") >= 0) { flags |= MENU_PASSWORD; }
   curr_mode = mode;
   RofiViewState *state =
-      rofi_view_create(modes[mode], config.filter, 0, process_result);
+      rofi_view_create(modes[mode], config.filter, flags, process_result);
 
   // User can pre-select a row.
   if (find_arg("-selected-row") >= 0) {
