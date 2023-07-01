@@ -282,6 +282,15 @@ void rofi_view_set_case_sensitive(RofiViewState *state, unsigned int case_sensit
 
 /**
  * @param state The handle to the view
+ * @param icon The icon name or file path. If NULL, revert to default icon.
+ * @param preload If true, load the icon into memory and don't change the icon
+ *
+ * Changes (or preloads) the icon of the "icon" widget.
+ */
+uint32_t rofi_view_set_icon(RofiViewState *state, const char *icon, gboolean preload);
+
+/**
+ * @param state The handle to the view
  * @param text An UTF-8 encoded character array with the text to overlay.
  *
  * Overlays text over the current view. Passing NULL for text hides the overlay.

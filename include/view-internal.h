@@ -111,6 +111,8 @@ struct RofiViewState {
   textbox *tb_current_entry;
   /** Extra icon widget that shows the current selected entries icon. */
   icon *icon_current_entry;
+  /** Extra icon widget for static branding */
+  icon *icon;
 
   /** Settings of the menu */
   MenuFlags menu_flags;

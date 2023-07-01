@@ -73,6 +73,8 @@
 
 #include "xcb.h"
 
+#include "rofi-icon-fetcher.h"
+
 /**
  * @param state The handle to the view
  * @param qr    Indicate if queue_redraw should be called on changes.
@@ -2287,6 +2289,10 @@ static void rofi_view_add_widget(RofiViewState *state, widget *parent_widget,
     state->icon_current_entry = icon_create(parent_widget, name);
     box_add((box *)parent_widget, WIDGET(state->icon_current_entry), FALSE);
     defaults = NULL;
+  } else if (strcmp(name, "icon") == 0) {
+    state->icon = icon_create(parent_widget, name);
+    box_add((box *)parent_widget, WIDGET(state->icon), FALSE);
+    defaults = NULL;
   }
   /**
    * CASE INDICATOR
@@ -2674,6 +2680,26 @@ void rofi_view_set_case_sensitive(RofiViewState *state, unsigned int case_sensit
     state->refilter = TRUE;
     textbox_text(state->case_indicator, get_matching_state());
   }
+}
+
+uint32_t rofi_view_set_icon(RofiViewState *state, const char *icon_name, gboolean preload) {
+  if (state->icon == NULL) return 0;
+  int icon_height =
+    widget_get_desired_height(WIDGET(state->icon),
+                              WIDGET(state->icon)->w);
+  if (icon_name == NULL) {
+    icon_name = rofi_theme_get_string(WIDGET(state->icon), "filename", NULL);
+  }
+  if (icon_name == NULL) { return 0; }
+  const uint32_t uid = rofi_icon_fetcher_query(icon_name, icon_height);
+  if (!preload) {
+    cairo_surface_t* icon = rofi_icon_fetcher_get(uid);
+    if (icon != NULL) {
+      icon_set_surface(state->icon, icon);
+      return 0;
+    }
+  }
+  return uid;
 }
 
 void rofi_view_set_overlay(RofiViewState *state, const char *text) {
