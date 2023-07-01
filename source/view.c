@@ -1409,12 +1409,11 @@ static gboolean rofi_view_refilter_real(RofiViewState *state) {
     state->tokens = NULL;
   }
   TICK_N("Filter tokenize");
-  if (state->text && strlen(state->text->text) > 0) {
-
+  gchar *pattern = mode_preprocess_input(state->sw, textbox_get_text(state->text));
+  glong plen = pattern ? g_utf8_strlen(pattern, -1) : 0;
+  if (pattern && plen > 0) {
     listview_set_filtered(state->list_view, TRUE);
     unsigned int j = 0;
-    gchar *pattern = mode_preprocess_input(state->sw, state->text->text);
-    glong plen = pattern ? g_utf8_strlen(pattern, -1) : 0;
     state->tokens = helper_tokenize(pattern, config.case_sensitive);
     /**
      * On long lists it can be beneficial to parallelize.
