@@ -274,6 +274,14 @@ void rofi_view_switch_mode(RofiViewState *state, Mode *mode);
 
 /**
  * @param state The handle to the view
+ * @param case_sensitive The new setting for this config option
+ *
+ * Changes Rofi's case sensitivity.
+ */
+void rofi_view_set_case_sensitive(RofiViewState *state, unsigned int case_sensitive);
+
+/**
+ * @param state The handle to the view
  * @param text An UTF-8 encoded character array with the text to overlay.
  *
  * Overlays text over the current view. Passing NULL for text hides the overlay.

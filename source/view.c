@@ -2667,6 +2667,15 @@ void rofi_view_workers_finalize(void) {
 }
 Mode *rofi_view_get_mode(RofiViewState *state) { return state->sw; }
 
+void rofi_view_set_case_sensitive(RofiViewState *state, unsigned int case_sensitive) {
+  unsigned int old = config.case_sensitive;
+  config.case_sensitive = case_sensitive;
+  if (old != case_sensitive) {
+    state->refilter = TRUE;
+    textbox_text(state->case_indicator, get_matching_state());
+  }
+}
+
 void rofi_view_set_overlay(RofiViewState *state, const char *text) {
   if (state->overlay == NULL || state->list_view == NULL) {
     return;
