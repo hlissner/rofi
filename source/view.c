@@ -1444,8 +1444,8 @@ static gboolean rofi_view_refilter_real(RofiViewState *state) {
     listview_set_filtered(state->list_view, TRUE);
     unsigned int j = 0;
     state->tokens = helper_tokenize(pattern, config.case_sensitive);
-    unsigned int old_selected_line = state->selected_line;
-    unsigned int old_selected_index = listview_get_selected(state->list_view);
+    /* unsigned int old_selected_line = state->selected_line; */
+    /* unsigned int old_selected_index = listview_get_selected(state->list_view); */
     /**
      * On long lists it can be beneficial to parallelize.
      * If number of threads is 1, no thread is spawn.
@@ -1508,15 +1508,15 @@ static gboolean rofi_view_refilter_real(RofiViewState *state) {
     g_free(pattern);
 
     // Restore the selection, if possible.
-    if (old_selected_index < state->filtered_lines
-        && old_selected_line != state->line_map[listview_get_selected(state->list_view)]) {
-      for (unsigned int i = 0; old_selected_line < UINT32_MAX && i < state->filtered_lines; ++i) {
-        if (state->line_map[i] == old_selected_line) {
-          rofi_view_set_selected_line(state, old_selected_line);
-          break;
-        }
-      }
-    }
+    /* if (old_selected_index < state->filtered_lines */
+    /*     && old_selected_line != state->line_map[listview_get_selected(state->list_view)]) { */
+    /*   for (unsigned int i = 0; old_selected_line < UINT32_MAX && i < state->filtered_lines; ++i) { */
+    /*     if (state->line_map[i] == old_selected_line) { */
+    /*       rofi_view_set_selected_line(state, old_selected_line); */
+    /*       break; */
+    /*     } */
+    /*   } */
+    /* } */
 
     double elapsed = g_timer_elapsed(timer, NULL);
 
